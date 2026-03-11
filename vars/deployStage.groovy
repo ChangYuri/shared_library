@@ -5,19 +5,9 @@ def call(String environment, String imageTag) {
     echo "Deploying ${imageTag} to ${environment}"
 
 
-    def services = ['frontend', 'order-service', 'product-service']
-    
-    for (service in services) {
-        sh """
-            kubectl set image deployment/${service} \
-            ${service}=yurichang/${service}:${imageTag} \
-            -n ${environment}
-        """
-    }
-    
-    for (service in services) {
-        sh "kubectl rollout status deployment/${service} -n ${environment}"
-    }
+    sh "kubectl set image deployment/${serviceName} ${serviceName}=yurichang/${serviceName}:${imageTag} -n ${environment}"
+    sh "kubectl rollout status deployment/${serviceName} -n ${environment}"
+
 
     echo "Deploy successful ${imageTag} to ${environment} environment"
 }
